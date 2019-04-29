@@ -16,6 +16,7 @@
  temp1 = temp1
 
 Setup
+ timer = (rand&7)
  drawscreen
  
  ;Define Constants
@@ -32,6 +33,7 @@ Setup
  dim complete1 = e
  dim konami = k
  dim state = s
+ dim timer = t
  ;pfclear
  ;clear variables
 
@@ -67,7 +69,7 @@ NextLevel
  gosub ClearPlayer bank4
  gosub ClearSprites bank4
  levelComplete = 0
- level = (rand&7)
+ level = timer
  if level =  0 then gosub L00Setup bank3
  if level =  1 then gosub L01Setup bank3
  if level =  2 then gosub L02Setup bank3
@@ -121,6 +123,12 @@ Draw
  DF4FRACINC = 255
  DF6FRACINC = 255
  drawscreen
+ gosub Counter bank2 ; Good time to advance counter
+ return
+
+Counter
+ timer = timer + 1
+ if timer > 4 then timer = 0
  return
 
 KonamiCheck
@@ -619,66 +627,50 @@ end
  return
 
 SetKeys
- player1-3:
- %1111111
- %1000001
- %1111111
- %1111111
- %1000001
- %1111111
- %1111111
- %1000001
- %1111111
- %1111111
- %1000001
- %1111111
+ player1:
+ %00001000
+ %00001000
+ %00001000
+ %00001000
+ %00111000
+ %01111000
+ %01111000
+ %00111000
 end
- player1color:
- $06
- $06
- $38
- $38
- $06
- $14
- $14
- $06
- $C2
- $C2
- $06
- $06
+ player2:
+ %00001000
+ %00001000
+ %00001000
+ %00001000
+ %00111000
+ %01001000
+ %01001000
+ %00111000
+end
+ player3:
+ %00001000
+ %00001000
+ %00001000
+ %00001000
+ %00111000
+ %01001000
+ %01001000
+ %00111010
+end
+ player1-3color:
+ $0E
+ $0E
+ $0E
+ $0E
+ $0E
+ $0E
+ $0E
+ $0E
 end
  player1x = 100
  player1y = 30
- player2color:
- $06
- $06
- $32
- $32
- $06
- $1A
- $1A
- $06
- $C2
- $C2
- $06
- $06
-end
  player2x = 100
  player2y = 70
- player3color:
- $06
- $06
- $32
- $32
- $06
- $14
- $14
- $06
- $C8
- $C8
- $06
- $06
-end
  player3x = 100
  player3y = 110
  return
@@ -994,33 +986,36 @@ TitleScreenGraphics
  X..............................X
  X..............................X
  X..............................X
- X...XXXXXXX...XXX.....XXXXX....X
- X...XXXXXXX.XXXXXXX..XX...XX...X
- X......X....X.....X..X.....X...X
- X......X....X.....X..X.........X
- X......X....X.....X..X.........X
- X......X....XXXXXXX..X.........X
- X......X.....XXXXX...X.........X
- X......X....XXXXX....X.........X
- X......X....X...X..X.X.........X
- X......X....X....X.X.X.........X
- X......X....X.....XX.X.....X...X
- X.....XXX...XXXXXXX..XX...XX...X
- X.....XXX....XXXXX.X..XXXXX....X
+ X.XX.....XX.XXX.XXX..XXX...XXX.X
+ X..X.....X...X...X..X...X.X....X
+ X..X..X..X...XXXXX..X...X..XX..X
+ X..X.X.X.X...X...X..X...X....X.X
+ X...X...X...XXX.XXX..XXX..XXX..X
  X..............................X
+ X.XXX..XXX..XX..X...X...X...X..X
+ X.X..X.X...X..X.X...X...X...X..X
+ X.XXX..XX..XXXX.X...X....X.X...X
+ X.X..X.X...X..X.X...X.....X....X
+ X.X..X.XXX.X..X.XXX.XXX...X....X
  X..............................X
- X...XX...XX...XXXXX.....XXX....X
- X...XX...XX..XXXXXXX...XXXXX...X
- X...XX...XX..X.....X...X...X...X
- X...XX...XX..X.........X.......X
- X...XX...XX..X.........X.......X
- X....X...X...X.........XXXX....X
- X....X...X...X..........XXXX...X
- X....X...X...X.............X...X
- X....X...X...X.............X...X
- X....XX.XX...X.....X...X...X...X
- X.....XXX....XXXXXXX...XXXXX...X
- X......X......XXXXX.....XXX....X
+ X.........XXXXX.X...X..........X
+ X...........X...XX..X..........X
+ X...........X...X.X.X..........X
+ X...........X...X..XX..........X
+ X.........XXXXX.X...X..........X
+ X..............................X
+ X..XX..X..X..XX..XXX...XXX.XXX.X
+ X.X..X.X..X.X..X.X..X.X....X...X
+ X.X....XXXX.XXXX.XXX..X.XX.XX..X
+ X.X..X.X..X.X..X.X..X.X..X.X...X
+ X..XX..X..X.X..X.X..X..XX..XXX.X
+ X..............................X
+ X..............XXX.............X
+ X.............X...X............X
+ X................X.............X
+ X...............X..............X
+ X..............................X
+ X...............X..............X
 end
  return
 
@@ -1660,14 +1655,14 @@ L03Graphics
  X..............................X
 end
  player1:
- %00011000
- %00011000
- %00011000
- %11111111
- %11111111
- %00011000
- %00011000
- %00011000
+ %00111100
+ %01000010
+ %10000001
+ %10000001
+ %10000001
+ %10000001
+ %01000010
+ %00111100
 end
  player1color:
  $0E
